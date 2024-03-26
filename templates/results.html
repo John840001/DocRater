@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %} Results {% endblock %}
+{% block body %}
+<h1>Assignment Evaluator</h1>
+<h5>Predictions</h5>
+<h2>{{subject}}</h2>
+<div class="upload-more-container">
+    <h4>Feel free to add new assignments as of when students turn them in ;)</h4>
+<div>
+    <form action="/upload" enctype="multipart/form-data" method="post">
+        <input type="file" name="files" multiple>
+        <button type="submit">Update files</button>
+        <input hidden name="subject" value="{{subject}}">
+    </form>
+</div>
+</div>
+    
+<div class="title-container">
+    <h3>Assignment</h3>
+    <h3>Marks</h3>
+</div>
+<div class="assignment-container">
+    {% for assignment in assignments %}
+        <span>{{assignment.name}}</span>
+
+        <!-- Display predicted marks if actual marks are null -->
+        {% if not assignment.marks %}
+            <span class="predicted">{{assignment.predicted_marks}}</span>
+        {% else %}
+            <span>{{assignment.marks}} <span class="predicted">({{assignment.predicted_marks}})</span></span>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
